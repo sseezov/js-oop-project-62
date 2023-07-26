@@ -51,5 +51,27 @@ export default class Validator {
         },
       };
     };
+    this.array = function array() {
+      return {
+        isRequired: false,
+        required: function required() {
+          this.isRequired = true;
+        },
+        size: false,
+        sizeof: function sizeof(value) {
+          this.size = value;
+          return this;
+        },
+        isValid: function isValid(value) {
+          if (!this.isRequired) {
+            return true;
+          }
+          if (!this.size) {
+            return Array.isArray(value);
+          }
+          return Array.isArray(value) && value.length === this.size;
+        },
+      };
+    };
   }
 }
