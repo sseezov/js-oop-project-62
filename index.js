@@ -11,6 +11,7 @@ console.log(schema.isValid(undefined));
 console.log(num.isValid(null));
 console.log('after required');
 schema.required();
+num.required();
 console.log(num.isValid(null));
 console.log(num.isValid(7));
 console.log(num.positive().isValid(7));

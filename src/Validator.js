@@ -1,11 +1,11 @@
 export default class Validator {
   constructor() {
-    this.isRequired = false;
     this.string = function string() {
       return {
+        isRequired: false,
         shoudContain: [],
         isValid: function isValid(value) {
-          if (!Validator.isRequired) {
+          if (!this.isRequired) {
             return true;
           }
           if (this.shoudContain.length === 0) {
@@ -15,7 +15,7 @@ export default class Validator {
           return contains.length === this.shoudContain.length && !!value;
         },
         required: function required() {
-          Validator.isRequired = !Validator.isRequired;
+          this.isRequired = !this.isRequired;
         },
         contains: function contains(value) {
           this.shoudContain.push(value);
@@ -25,8 +25,12 @@ export default class Validator {
     };
     this.number = function number() {
       return {
+        isRequired: false,
+        required: function required() {
+          this.isRequired = !this.isRequired;
+        },
         isValid: function isValid(value) {
-          if (!Validator.isRequired) {
+          if (!this.isRequired) {
             return true;
           } if (this.ranges.length > 0) {
             if (this.isPositive === true) {
