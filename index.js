@@ -2,20 +2,18 @@ import Validator from './src/Validator.js';
 
 const v = new Validator();
 
-const schema = v.array();
+const schema = v.object();
 
-console.log(schema.isValid(null)); // true
-schema.required();
-console.log(schema.isValid(null)); // true
-console.log(schema.isValid([])); // true
-console.log(schema.isValid(['hexlet'])); // true
-schema.sizeof(2);
-console.log(schema.isValid(['hexlet'])); // true
-console.log(schema.isValid(['hexlet', 'code-basics'])); // true
+// Позволяет описывать валидацию для свойств объекта
+schema.shape({
+  name: v.string().required(),
+  age: v.number().positive(),
+});
 
-// schema.isValid(null); // false
-// schema.isValid([]); // true
-// schema.isValid(['hexlet']); // true
-
-// schema.isValid(['hexlet']); // false
-// schema.isValid(['hexlet', 'code-basics']); // true
+console.log(schema.isValid({ name: 'kolya', age: 100 })); // true
+console.log(schema.isValid({ name: 'maya', age: null })); // true
+console.log(schema.isValid({ name: '', age: null })); // false
+console.log(schema.isValid({ name: 'ada', age: -5 })); // false
+// schema.isValid({ name: 'maya', age: null }); // true
+// schema.isValid({ name: '', age: null }); // false
+// schema.isValid({ name: 'ada', age: -5 }); // false

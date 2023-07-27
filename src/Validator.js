@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 export default class Validator {
   constructor() {
     this.string = function string() {
@@ -15,7 +17,8 @@ export default class Validator {
           return contains.length === this.shoudContain.length && !!value;
         },
         required: function required() {
-          this.isRequired = !this.isRequired;
+          this.isRequired = true;
+          return this;
         },
         contains: function contains(value) {
           this.shoudContain.push(value);
@@ -27,18 +30,25 @@ export default class Validator {
       return {
         isRequired: false,
         required: function required() {
-          this.isRequired = !this.isRequired;
+          this.isRequired = true;
+          return this;
         },
         isValid: function isValid(value) {
+          const num = this.isRequired ? value : Number(value);
           if (!this.isRequired) {
-            return true;
-          } if (this.ranges.length > 0) {
-            if (this.isPositive === true) {
-              return typeof value === 'number' && value >= 0
-                && value >= this.ranges[0] && value <= this.ranges[1];
+            if (!(num >= 0 || num < 0)) {
+              return false;
             }
-            return typeof value === 'number' && value >= this.ranges[0] && value <= this.ranges[1];
-          } return typeof value === 'number';
+          } if (this.ranges.length > 0) {
+            if (this.isPositive) {
+              return typeof num === 'number' && num >= 0
+                && num >= this.ranges[0] && num <= this.ranges[1];
+            }
+            return typeof num === 'number' && num >= this.ranges[0] && num <= this.ranges[1];
+          } if (this.isPositive) {
+            return typeof num === 'number' && num >= 0;
+          }
+          return typeof num === 'number';
         },
         isPositive: false,
         positive: function positive() {
@@ -56,6 +66,7 @@ export default class Validator {
         isRequired: false,
         required: function required() {
           this.isRequired = true;
+          return this;
         },
         size: false,
         sizeof: function sizeof(value) {
@@ -70,6 +81,26 @@ export default class Validator {
             return Array.isArray(value);
           }
           return Array.isArray(value) && value.length === this.size;
+        },
+      };
+    };
+    this.object = function object() {
+      return {
+        names: false,
+        values: false,
+        shape: function shape(obj) {
+          this.names = Object.keys(obj);
+          this.values = Object.values(obj);
+        },
+        isValid: function isValid(obj) {
+          if (!_.isEqual(Object.keys(obj), this.names)) {
+            return false;
+          }
+          const keysValidation = this.values.map((value, i) => {
+            const check = value.isValid(obj[this.names[i]]);
+            return check;
+          });
+          return keysValidation.indexOf(false) < 0;
         },
       };
     };
