@@ -4,10 +4,10 @@ import isValid from '../utils/isValid.js';
 class StringSchema {
   constructor(schema) {
     this.isRequired = false;
-    this.validators = new Set([this.checkIsString]);
+    this.validators = [this.checkIsString];
     this.schema = schema;
     this.strMinLength = 0;
-    this.subStrings = new Set();
+    this.subStrings = [];
   }
 
   required() {
@@ -23,15 +23,15 @@ class StringSchema {
 
   minLength(minLength) {
     this.strMinLength = minLength;
-    this.validators.add(this.checkMinLength);
+    this.validators.push(this.checkMinLength);
     return this;
   }
 
   contains(subString) {
-    this.subStrings.add(subString);
+    this.subStrings.push(subString);
 
-    if (!this.validators.has(this.checkContains)) {
-      this.validators.add(this.checkContains);
+    if (!this.validators.includes(this.checkContains)) {
+      this.validators.push(this.checkContains);
     }
 
     return this;

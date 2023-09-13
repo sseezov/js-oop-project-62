@@ -1,5 +1,5 @@
 const isValid = ({ context, validators, value }) => {
-  console.log(123, value)
+  // eslint-disable-next-line
   for (const validate of validators) {
     if (!validate.call(context, value)) {
       return false;
