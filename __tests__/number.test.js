@@ -46,4 +46,14 @@ test('Number validation', async (t) => {
     assert.equal(schema.isValid(-10), true);
     assert.equal(schema.isValid(10), true);
   });
+
+  await t.test('Check testFunc', () => {
+    const validator = new Validator();
+    const fn = (value, min) => value >= min;
+    validator.addValidator('number', 'min', fn);
+    const schema = validator.number().test('min', 5);
+
+    assert.equal(schema.isValid(4), false);
+    assert.equal(schema.isValid(6), true);
+  });
 });

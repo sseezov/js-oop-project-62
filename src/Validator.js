@@ -48,4 +48,14 @@ class Validator {
   }
 }
 
+// const validator = new Validator();
+// const fn = (array, value) => {
+//   return array.includes(value);
+// };
+// validator.addValidator('array', 'include', fn);
+// const schema = validator.array().test('include', 12);
+
+// console.log(schema.isValid([12, 2, 212]));
+// console.log(schema.isValid([2, 212]));
+
 export default Validator;

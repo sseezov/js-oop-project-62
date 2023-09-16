@@ -41,4 +41,14 @@ test('Array validation', async (t) => {
     assert.equal(schema.isValid([1, 2, 3, 4]), false);
     assert.equal(schema.isValid([1, 2, 3, 4, 5]), true);
   });
+
+  await t.test('Check testFunc', () => {
+    const validator = new Validator();
+    const fn = (array, value) => array.includes(value);
+    validator.addValidator('array', 'include', fn);
+    const schema = validator.array().test('include', 12);
+
+    assert.equal(schema.isValid([12, 2, 212]), true);
+    assert.equal(schema.isValid([2, 212]), false);
+  });
 });

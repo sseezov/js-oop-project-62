@@ -54,4 +54,14 @@ test('String validation', async (t) => {
     assert.equal(schema.isValid('123'), false);
     assert.equal(schema.isValid('12345'), true);
   });
+
+  await t.test('Check testFunc', () => {
+    const validator = new Validator();
+    const fn = (value, start) => value.startsWith(start);
+    validator.addValidator('string', 'startWith', fn);
+    const schema = validator.string().test('startWith', 'H');
+
+    assert.equal(schema.isValid('exlet'), false);
+    assert.equal(schema.isValid('Hexlet'), true);
+  });
 });
