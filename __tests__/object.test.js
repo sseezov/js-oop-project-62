@@ -8,7 +8,7 @@ test('Objects validation', async (t) => {
     const schema = validator.object().shape({
       name: validator.string().required().minLength(5),
       age: validator.number().positive(),
-      skills: validator.array().sizeOf(2),
+      skills: validator.array().sizeof(2),
     });
 
     assert.equal(schema.isValid(null), false);

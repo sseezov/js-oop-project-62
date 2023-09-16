@@ -20,7 +20,7 @@ class NumberSchema {
     );
   }
 
-  sizeOf(length) {
+  sizeof(length) {
     this.size = length;
     this.validators.push(this.checkSize);
     return this;

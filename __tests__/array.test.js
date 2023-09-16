@@ -25,7 +25,7 @@ test('Array validation', async (t) => {
 
   await t.test('Check sizeof', () => {
     const validator = new Validator();
-    const schema = validator.array().sizeOf(4);
+    const schema = validator.array().sizeof(4);
 
     assert.equal(schema.isValid([]), false);
     assert.equal(schema.isValid([1, 2, 3]), false);
@@ -37,7 +37,7 @@ test('Array validation', async (t) => {
     assert.equal(schema.isValid(null), false);
     assert.equal(schema.isValid(undefined), false);
 
-    schema.sizeOf(5);
+    schema.sizeof(5);
     assert.equal(schema.isValid([1, 2, 3, 4]), false);
     assert.equal(schema.isValid([1, 2, 3, 4, 5]), true);
   });
