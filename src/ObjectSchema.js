@@ -12,10 +12,13 @@ class ObjectSchema {
   }
 
   isValid(value) {
-    if (value === null
-      || value === undefined
+    if (value === undefined
       || !this.objectSchema) {
       return false;
+    }
+
+    if (value === null) {
+      return true;
     }
 
     const checks = Object

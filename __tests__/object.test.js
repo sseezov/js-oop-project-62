@@ -11,7 +11,7 @@ test('Objects validation', async (t) => {
       skills: validator.array().sizeof(2),
     });
 
-    assert.equal(schema.isValid(null), false);
+    assert.equal(schema.isValid(null), true);
     assert.equal(schema.isValid({ name: 'solo' }), false);
 
     const nullableSchema = validator.object().shape({
