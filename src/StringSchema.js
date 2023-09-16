@@ -4,7 +4,6 @@ import isValid from '../utils/isValid.js';
 class StringSchema {
   constructor(schema) {
     this.isRequired = false;
-    this.expected = {};
     this.validators = [this.checkIsString];
     this.schema = schema;
     this.strMinLength = 0;
