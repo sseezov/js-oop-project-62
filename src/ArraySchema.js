@@ -40,6 +40,15 @@ class NumberSchema {
 
     return check(this.isRequired, value, validate);
   }
+
+  test(validatorName, value) {
+    console.log(this.schema);
+    const validator = this.schema.filter((validatorFn) => validatorFn.name === validatorName)[0];
+    const validate = (number) => validator(number, value);
+    this.validators.push(validate);
+
+    return this;
+  }
 }
 
 export default NumberSchema;

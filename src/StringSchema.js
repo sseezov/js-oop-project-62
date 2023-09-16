@@ -4,6 +4,7 @@ import isValid from '../utils/isValid.js';
 class StringSchema {
   constructor(schema) {
     this.isRequired = false;
+    this.expected = {};
     this.validators = [this.checkIsString];
     this.schema = schema;
     this.strMinLength = 0;
@@ -60,6 +61,15 @@ class StringSchema {
       .every((subString) => str.search(new RegExp(subString)) > -1);
 
     return check(this.isRequired, value, validate);
+  }
+
+  test(validatorName, value) {
+    console.log(this.schema);
+    const validator = this.schema.filter((validatorFn) => validatorFn.name === validatorName)[0];
+    const validate = (string) => validator(string, value);
+    this.validators.push(validate);
+
+    return this;
   }
 }
 

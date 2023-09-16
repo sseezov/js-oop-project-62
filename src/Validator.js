@@ -4,20 +4,47 @@ import ArraySchema from './ArraySchema.js';
 import ObjectSchema from './ObjectSchema.js';
 
 class Validator {
+  constructor() {
+    this.schema = null;
+    this.customValidators = {
+      string: [],
+      number: [],
+      array: [],
+    };
+  }
+
+  getSchema() {
+    return this.schema;
+  }
+
+  setSchema(schema) {
+    this.schema = schema;
+  }
+
   string() {
-    return new StringSchema(this);
+    this.setSchema(new StringSchema(this.customValidators.string));
+
+    return this.getSchema();
   }
 
   number() {
-    return new NumberSchema(this);
+    this.setSchema(new NumberSchema(this.customValidators.number));
+
+    return this.getSchema();
   }
 
   array() {
-    return new ArraySchema(this);
+    this.setSchema(new ArraySchema(this.customValidators.array));
+
+    return this.getSchema();
   }
 
   object() {
     return new ObjectSchema(this);
+  }
+
+  addValidator(type, name, func) {
+    this.customValidators[type].push(Object.defineProperty(func, 'name', { value: name }));
   }
 }
 
